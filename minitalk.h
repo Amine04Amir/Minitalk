@@ -4,6 +4,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <stdlib.h>
 
 // typedef struct s_data
 // {
