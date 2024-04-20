@@ -32,3 +32,5 @@ fclean: clean
 	rm -f $(SERVER) $(CLIENT)
 
 re: fclean all
+
+.PHONY: all clean fclean re 
