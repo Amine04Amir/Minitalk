@@ -6,8 +6,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-// typedef struct s_data
-// {
-    
-// }	t_data;
+typedef struct s_data
+{
+    int index;
+    int bit;
+}	t_data;
 #endif

@@ -16,7 +16,7 @@ int ft_atoi(const char *str)
         s = -1;
         i++;
     }
-    else 
+    else if (str[i] == '+')
         i++;
     while (str[i] >= '0' && str[i] <= '9')
     {
@@ -29,6 +29,7 @@ int ft_atoi(const char *str)
 void send_message(int pid ,char c)
 {
     int i;
+    unsigned char tmp;
 
     if (pid <= 0)
     {
@@ -38,26 +39,13 @@ void send_message(int pid ,char c)
     i = 7;
     while (i >= 0)
     {
-        if (c & (1 << i))
-        {
-            if(kill(pid, SIGUSR1) == -1)
-            {
-                printf("Error sending signal!");
-                exit(1);
-            }
-            printf("1");
-        }
-        else
-        {
-            if (kill(pid, SIGUSR2) == -1)
-            {
-                printf("Error sending signal!");
-                exit(1);
-            }
-            printf("0");
-        } 
+        tmp = c >> i;
+        if (tmp % 2 == 0)
+            kill(pid, SIGUSR2);
+        else     
+            kill(pid, SIGUSR1);
         i--;
-        sleep(5);
+        usleep(50);
     }
 }
 
@@ -74,10 +62,7 @@ int main(int ac, char **av)
     pid = ft_atoi(av[1]);
     i = 0;
     while (av[2][i] != '\0')
-    {
-        send_message(pid, av[2][i]);
-        i++;
-        printf("%c\n", av[2][i]);
-    }
+        send_message(pid, av[2][i++]);
+    send_message(pid,'\0');
     return 0;
 }

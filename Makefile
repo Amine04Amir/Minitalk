@@ -23,7 +23,7 @@ $(SERVER) : $(OBJ_S)
 	$(CC) $(OBJ_S) -o $(SERVER)
 
 $(CLIENT) : $(OBJ_C)
-	$(CC) $(OBJ_S) -o $(CLIENT)
+	$(CC) $(OBJ_C) -o $(CLIENT)
 
 clean: 
 	rm -f $(OBJ_C) $(OBJ_S)
@@ -31,6 +31,6 @@ clean:
 fclean: clean
 	rm -f $(SERVER) $(CLIENT)
 
-re: fclean all
+re: fclean  all 
 
 .PHONY: all clean fclean re 
