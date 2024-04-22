@@ -18,9 +18,9 @@ CC = gcc
 
 CFLAGS = -Werror -Wextra -Wall
 
-bonus: $(SERVER_B) $(CLIENT_B) clean
-
 all : $(SERVER) $(CLIENT)
+
+bonus: $(SERVER_B) $(CLIENT_B) clean
 
 OBJ_S = ${SRC_S:.c=.o}
 
