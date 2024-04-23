@@ -54,3 +54,5 @@ fclean: clean
 re: fclean  all 
 
 .PHONY: all clean fclean re bonus
+
+.SECONDARY: $(OBJ_S) $(OBJ_C) $(OBJ_BS) $(OBJ_BC)
