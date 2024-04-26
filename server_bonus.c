@@ -1,60 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mamir <mamir@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/23 21:25:55 by mamir             #+#    #+#             */
+/*   Updated: 2024/04/24 21:15:10 by mamir            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk_bonus.h"
 
-t_data data ={.bit = 0, .index = 0};
+t_data	g_data = {.bit = 0, .index = 0};
 
-void ft_putchar(char c)
+void	signal_handler(int signum, siginfo_t *info, void *context)
 {
-    write(1, &c, 1);
+	(void)context;
+	if (signum == SIGUSR1)
+		g_data.bit |= 1;
+	g_data.index++;
+	if (g_data.index == 8)
+	{
+		if (g_data.bit == '\0')
+		{
+			write(1, "\n", 1);
+			kill(info->si_pid, SIGUSR1);
+		}
+		write(1, &g_data.bit, 1);
+		g_data.index = 0;
+		g_data.bit = 0;
+	}
+	g_data.bit <<= 1;
 }
 
-void ft_putnbr(int n)
+int	main(int ac, char **av)
 {
-    if (n == -2147483648)
-        write(1, "-2147483648", 11);
-    else if (n < 0)
-    {
-        ft_putchar('-');
-        n = -n;
-        ft_putnbr(n);
-    }
-    else if (n >= 10)
-    {
-        ft_putnbr(n / 10);
-        ft_putnbr(n % 10);
-    }
-    else if (n >= 0 && n <= 9)
-        ft_putchar(n +48);
-}
+	pid_t				pid;
+	struct sigaction	sa;
 
-void signal_handler(int signum)
-{
-    if (signum == SIGUSR1)
-        data.bit |= 1;
-    data.index++;
-    if (data.index == 8)
-    {
-        if (data.bit == '\0')
-            write(1, "\n", 2);  
-        write(1, &data.bit, 1);
-        data.index = 0;
-        data.bit = 0;
-    }
-    data.bit <<= 1;
-}
-
-int main()
-{
-    pid_t pid;
-
-    pid = getpid();
-    write(1, "PID:", 5);
-    ft_putnbr(pid);
-    write(1, "\n", 1);
-    signal(SIGUSR1, signal_handler);
-    signal(SIGUSR2,signal_handler);
-    while (1)
-    {
-        pause();
-    }
-    return 0;
+	(void)av;
+	if (ac != 1)
+	{
+		write(2, "BAD ENTRY!\n", 12);
+		exit(1);
+	}
+	pid = getpid();
+	ft_printf("PID: %d\n", pid);
+	sa.sa_sigaction = &signal_handler;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	while (1)
+	{
+		pause();
+	}
+	return (0);
 }

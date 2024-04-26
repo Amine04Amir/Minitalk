@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
+/*   client_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamir <mamir@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 21:25:45 by mamir             #+#    #+#             */
-/*   Updated: 2024/04/24 15:46:44 by mamir            ###   ########.fr       */
+/*   Created: 2024/04/24 15:33:48 by mamir             #+#    #+#             */
+/*   Updated: 2024/04/24 15:40:17 by mamir            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_BONUS_H
-# define MINITALK_BONUS_H
+#include "minitalk_bonus.h"
 
-# include "ft_printf/ft_printf.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-typedef struct s_data
+void	ft_error(void)
 {
-	int	index;
-	int	bit;
-}		t_data;
-
-void	ft_error(void);
-
-#endif
+	write(2, "BAD INPUT!\n", 10);
+	exit(1);
+}
